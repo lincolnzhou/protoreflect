@@ -152,8 +152,8 @@ func (m *Message) marshalJSON(b *indentBuffer, opts *jsonpb.Marshaler) error {
 
 		v, ok := m.values[itag]
 		if !ok {
-			if fd.GetOneOf() != nil {
-				// don't print defaults for fields in a oneof
+			if fd.GetOneOf() != nil && fd.GetLabel() != descriptor.FieldDescriptorProto_LABEL_OPTIONAL {
+				// don't print defaults for fields in a oneof, not optional field
 				continue
 			}
 			v = fd.GetDefaultValue()
